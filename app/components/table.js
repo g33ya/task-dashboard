@@ -98,13 +98,16 @@ export function TaskTable( { searchTerm }) {
                     value={newTask.dueDate}
                     onChange={handleInputChange}
                     />
-                    <input
-                    type="text"
-                    name="status"
-                    value={newTask.status}
-                    onChange={handleInputChange}
-                    placeholder="Status"
-                    />
+                    <select
+                        name="status"
+                        value={newTask.status}
+                        onChange={handleInputChange}
+                        className="border p-2 rounded"
+                    >
+                        <option value="not-started">Not Started</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="complete">Complete</option>
+                    </select>
                     <div className="flex items-center w-full sm:w-auto space-x-4">
                         <textarea
                             name="notes"

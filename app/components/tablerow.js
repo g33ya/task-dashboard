@@ -12,12 +12,18 @@ export function TableRow( {task, taskNum, onEdit, removeTask} ) {
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
     };
+
+    const statusDisplay = {
+        'not-started': 'Not Started',
+        'in-progress': 'In Progress',
+        'complete': 'Complete'
+    };
     return (
         <tr className={`bg-white ${isChecked ? 'line-through' : ''}`}>
             <TaskCheckbox isChecked={isChecked} handleCheckboxChange={handleCheckboxChange}/>
             <td className="border border-gray-300 px-4 py-2">{taskNum}</td>
             <td className="border border-gray-300 px-4 py-2">{task.name}</td>
-            <td className="border border-gray-300 px-4 py-2">{task.status}</td>
+            <td className="border border-gray-300 px-4 py-2">{statusDisplay[task.status] || '' }</td>
             <td className="border border-gray-300 px-4 py-2">{task.dueDate}</td>
             <td className="border border-gray-300 px-4 py-2">{task.notes}</td> 
             <td className="border border-gray-300 px-4 py-2">
@@ -27,7 +33,6 @@ export function TableRow( {task, taskNum, onEdit, removeTask} ) {
                         className="bg-blue-500 text-white w-12 h-12 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center justify-center"
                         >
                             <PencilIcon className="w-6 h-6" />
-
                     </button>
                     <button
                         type="button"
