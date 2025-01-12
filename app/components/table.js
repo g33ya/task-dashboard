@@ -75,85 +75,88 @@ export function TaskTable( { searchTerm }) {
     const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0; 
 
     return (
-        <div>
-            <div className="flex space-x-4 border-b-2 mb-4">
-                {['all', 'not-started', 'in-progress', 'complete'].map((status) => (
-                    <button
-                        key={status}
-                        className={`px-4 py-2 font-medium ${selectedTab === status ? 'border-b-2 border-green-500' : ''}`}
-                        onClick={() => setSelectedTab(status)}
-                    >
-                        {status.charAt(0).toUpperCase() + status.slice(1).replace('-', ' ')}
-                    </button>
-                ))}
-            </div>
-            
-            <table className="table-auto border-collapse border border-gray-300 w-full text-left">
-                <thead className="bg-gray-200">
-                <tr>
-                    <th className="border border-gray-300 px-4 py-2">Completed</th>
-                    <th className="border border-gray-300 px-4 py-2">Task Number</th>
-                    <th className="border border-gray-300 px-4 py-2">Task Name</th>
-                    <th className="border border-gray-300 px-4 py-2">Status</th>
-                    <th className="border border-gray-300 px-4 py-2">Due Date</th>
-                    <th className="border border-gray-300 px-4 py-2">Notes</th>
-
-                </tr>
-                </thead>
-                <tbody>
-                    {filteredTasks.map((task, index) => (
-                        <TableRow key={task.id} task={task} taskNum={index + 1} onEdit={handleEdit} removeTask={handleDelete} />
-                    ))}
-                </tbody>
-            </table>
-            
-            <div className="p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-md">
-                <form onSubmit={handleFormSubmit} className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">             
-                    <input
-                    type="text"
-                    name="name"
-                    value={newTask.name}
-                    onChange={handleInputChange}
-                    placeholder="Task Name"
-                    />
-                    <input
-                    type="date"
-                    name="dueDate"
-                    value={newTask.dueDate}
-                    onChange={handleInputChange}
-                    />
-                    <select
-                        name="status"
-                        value={newTask.status || "not-started"}
-                        onChange={handleInputChange}
-                        className="border p-2 rounded"
-                    >
-                        <option value="not-started">Not Started</option>
-                        <option value="in-progress">In Progress</option>
-                        <option value="complete">Complete</option>
-                    </select>
-                    <div className="flex items-center w-full sm:w-auto space-x-4">
-                        <textarea
-                            name="notes"
-                            value={newTask.notes}
-                            onChange={handleInputChange}
-                            placeholder="Notes"
-                            className="border border-gray-300 px-4 py-2 rounded-md w-full sm:w-auto"
-                        />
+        <div className="flex">
+            <div className="w-3/4 flex flex-col">
+                <div className="flex space-x-4 border-b-2 mb-4">
+                    {['all', 'not-started', 'in-progress', 'complete'].map((status) => (
                         <button
-                            type="submit"
-                            className="bg-green-300 text-white w-12 h-12 rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center"
-                            aria-label={editingTask ? "Update Task" : "Add Task"}
+                            key={status}
+                            className={`px-4 py-2 font-medium ${selectedTab === status ? 'border-b-2 border-green-500' : ''}`}
+                            onClick={() => setSelectedTab(status)}
                         >
-                            {editingTask ? <CheckIcon className="w-6 h-6" /> : <PlusIcon className="w-6 h-6" />}
-                            
+                            {status.charAt(0).toUpperCase() + status.slice(1).replace('-', ' ')}
                         </button>
+                    ))}
+                </div>
+                <div className="flex-1">
+                    <table className="table-auto border-collapse border border-gray-300 w-full text-left">
+                        <thead className="bg-gray-200">
+                        <tr>
+                            <th className="border border-gray-300 px-4 py-2">Completed</th>
+                            <th className="border border-gray-300 px-4 py-2">Task Number</th>
+                            <th className="border border-gray-300 px-4 py-2">Task Name</th>
+                            <th className="border border-gray-300 px-4 py-2">Status</th>
+                            <th className="border border-gray-300 px-4 py-2">Due Date</th>
+                            <th className="border border-gray-300 px-4 py-2">Notes</th>
+
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {filteredTasks.map((task, index) => (
+                                <TableRow key={task.id} task={task} taskNum={index + 1} onEdit={handleEdit} removeTask={handleDelete} />
+                            ))}
+                        </tbody>
+                    </table>
+            
+                    <div className="p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-md">
+                        <form onSubmit={handleFormSubmit} className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">             
+                            <input
+                            type="text"
+                            name="name"
+                            value={newTask.name}
+                            onChange={handleInputChange}
+                            placeholder="Task Name"
+                            />
+                            <input
+                            type="date"
+                            name="dueDate"
+                            value={newTask.dueDate}
+                            onChange={handleInputChange}
+                            />
+                            <select
+                                name="status"
+                                value={newTask.status || "not-started"}
+                                onChange={handleInputChange}
+                                className="border p-2 rounded"
+                            >
+                                <option value="not-started">Not Started</option>
+                                <option value="in-progress">In Progress</option>
+                                <option value="complete">Complete</option>
+                            </select>
+                            <div className="flex items-center w-full sm:w-auto space-x-4">
+                                <textarea
+                                    name="notes"
+                                    value={newTask.notes}
+                                    onChange={handleInputChange}
+                                    placeholder="Notes"
+                                    className="border border-gray-300 px-4 py-2 rounded-md w-full sm:w-auto"
+                                />
+                                <button
+                                    type="submit"
+                                    className="bg-green-300 text-white w-12 h-12 rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center"
+                                    aria-label={editingTask ? "Update Task" : "Add Task"}
+                                >
+                                    {editingTask ? <CheckIcon className="w-6 h-6" /> : <PlusIcon className="w-6 h-6" />}
+                                    
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                </form>
-                <div className="my-4">
-                <h3 className="text-xl font-bold">Task Progress</h3>
-                <ProgressWheel progress={progress} />
+                </div>
             </div>
+            <div className="w-1/4 p-4 pl-30 flex flex-col items-center">
+                <h3 className="text-xl font-bold mb-4">Task Progress</h3>
+                <ProgressWheel progress={progress} />
             </div>
         </div>
     );
