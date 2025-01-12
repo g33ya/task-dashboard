@@ -1,6 +1,8 @@
 "use client"; // DOM
 import { useState } from 'react';
 import { TableRow } from './tablerow.js';
+import { SearchBar } from './searchbar.js';
+
 import { PlusIcon , CheckIcon} from '@heroicons/react/24/solid'; // For solid icons
 
 export function TaskTable( { searchTerm }) {
@@ -8,7 +10,7 @@ export function TaskTable( { searchTerm }) {
     const [tasks, setTasks] = useState([]); // list of tasks
     const [newTask, setNewTask] = useState({ // create new task
         name: '',
-        status: '',
+        status: 'not-started',
         dueDate: '',
         notes:'',
     });
@@ -21,6 +23,8 @@ export function TaskTable( { searchTerm }) {
             [name]: value
         });
     }
+    const [selectedTab, setSelectedTab] = useState('all'); 
+
 
     const handleFormSubmit = (newEvent) => {
         newEvent.preventDefault(); // stop page from reloading
@@ -54,16 +58,32 @@ export function TaskTable( { searchTerm }) {
     };
 
     const filteredTasks = tasks.filter(task => {
-        return (
-            task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            task.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            task.dueDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            task.notes.toLowerCase().includes(searchTerm.toLowerCase())
-        );
+        const matchesSearchTerm = 
+        task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        task.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        task.dueDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        task.notes.toLowerCase().includes(searchTerm.toLowerCase());
+
+        const matchesTab =
+            selectedTab === 'all' || task.status === selectedTab;
+
+        return matchesSearchTerm && matchesTab;
     });
 
     return (
         <div>
+            <div className="flex space-x-4 border-b-2 mb-4">
+                {['all', 'not-started', 'in-progress', 'complete'].map((status) => (
+                    <button
+                        key={status}
+                        className={`px-4 py-2 font-medium ${selectedTab === status ? 'border-b-2 border-green-500' : ''}`}
+                        onClick={() => setSelectedTab(status)}
+                    >
+                        {status.charAt(0).toUpperCase() + status.slice(1).replace('-', ' ')}
+                    </button>
+                ))}
+            </div>
+            
             <table className="table-auto border-collapse border border-gray-300 w-full text-left">
                 <thead className="bg-gray-200">
                 <tr>
@@ -100,7 +120,7 @@ export function TaskTable( { searchTerm }) {
                     />
                     <select
                         name="status"
-                        value={newTask.status}
+                        value={newTask.status || "not-started"}
                         onChange={handleInputChange}
                         className="border p-2 rounded"
                     >
