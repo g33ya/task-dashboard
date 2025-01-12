@@ -14,10 +14,10 @@ export function TaskTable() {
     });
 
     const handleInputChange = (inputEvent) => {
-        const { name, newValue } = inputEvent.target;
+        const { name, value } = inputEvent.target; // value = new value
         setNewTask({
             ...newTask, // update existing task list
-            [name]: newValue
+            [name]: value
         });
     }
 
@@ -49,8 +49,13 @@ export function TaskTable() {
                 </tr>
                 </thead>
                 <tbody>
-                
-                <TableRow />
+                {tasks.map((task, index) => (
+                    <tr key={index}>
+                        <TableRow task={task} taskNum={index + 1}/>     
+                    </tr>         
+                ))}
+
+                <TableRow tasks={tasks}/>
                 
                 <tr className="bg-gray-100">
                     <td className="border border-gray-300 px-4 py-2">Holder</td>
