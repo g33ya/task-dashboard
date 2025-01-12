@@ -33,7 +33,8 @@ export function TaskTable() {
             setTasks(updatedTasks);
             setEditingTask(null); // turn off editing
         } else { // adding a new task!
-            setTasks([...tasks, { ...newTask, completed: false }]);
+            const newTaskWithID = { ...newTask, id: Date.now() };
+            setTasks([...tasks, newTaskWithID]);
         }
         
         setNewTask({
@@ -47,6 +48,10 @@ export function TaskTable() {
     const handleEdit = (task) => {
         setEditingTask(task); // edit selected task
         setNewTask(task); // prefills fields with task's original fields
+    };
+
+    const handleDelete = (taskId) => {
+        setTasks(tasks.filter((task) => task.id !== taskId)); // Remove task by ID
     };
 
     return (
@@ -65,7 +70,7 @@ export function TaskTable() {
                 </thead>
                 <tbody>
                     {tasks.map((task, index) => (
-                        <TableRow key={index} task={task} taskNum={index + 1} onEdit={handleEdit}/>
+                        <TableRow key={index} task={task} taskNum={index + 1} onEdit={handleEdit} removeTask={handleDelete}/>
                     ))}
                 </tbody>
             </table>
@@ -105,6 +110,7 @@ export function TaskTable() {
                     >
                         {editingTask ? "Update Task" : "Add Task"}
                     </button>
+                    
                 </form>
             </div>
         </div>

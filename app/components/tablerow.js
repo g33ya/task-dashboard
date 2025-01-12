@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { TaskCheckbox } from './checkbox.js';
 
 
-export function TableRow( {task, taskNum, onEdit} ) {
+export function TableRow( {task, taskNum, onEdit, removeTask} ) {
     const [isChecked, setIsChecked] = useState(false); 
 
     const handleCheckboxChange = () => {
@@ -25,6 +25,13 @@ export function TableRow( {task, taskNum, onEdit} ) {
                     className="bg-blue-500 text-white py-1 px-3 rounded hover:bg-blue-600"
                 >
                     Edit
+                </button>
+                <button
+                    type="button"
+                    className="bg-red-500 text-white py-1 px-3 rounded hover:bg-blue-600"
+                    onClick={() => removeTask(task.id)}
+                    >
+                    Remove Task
                 </button>
             </td>
         </tr>
