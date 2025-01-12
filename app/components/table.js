@@ -1,9 +1,9 @@
 "use client"; // DOM
 import { useState } from 'react';
 import { TableRow } from './tablerow.js';
-import { PlusIcon } from '@heroicons/react/24/solid'; // For solid icons
+import { PlusIcon , CheckIcon} from '@heroicons/react/24/solid'; // For solid icons
 
-export function TaskTable() {
+export function TaskTable( { searchTerm }) {
 
     const [tasks, setTasks] = useState([]); // list of tasks
     const [newTask, setNewTask] = useState({ // create new task
@@ -53,6 +53,15 @@ export function TaskTable() {
         setTasks(tasks.filter((task) => task.id !== taskId)); // Remove task by ID
     };
 
+    const filteredTasks = tasks.filter(task => {
+        return (
+            task.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            task.status.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            task.dueDate.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            task.notes.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+    });
+
     return (
         <div>
             <table className="table-auto border-collapse border border-gray-300 w-full text-left">
@@ -68,8 +77,8 @@ export function TaskTable() {
                 </tr>
                 </thead>
                 <tbody>
-                    {tasks.map((task, index) => (
-                        <TableRow key={index} task={task} taskNum={index + 1} onEdit={handleEdit} removeTask={handleDelete}/>
+                    {filteredTasks.map((task, index) => (
+                        <TableRow key={task.id} task={task} taskNum={index + 1} />
                     ))}
                 </tbody>
             </table>
@@ -109,7 +118,8 @@ export function TaskTable() {
                             className="bg-green-300 text-white w-12 h-12 rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center"
                             aria-label={editingTask ? "Update Task" : "Add Task"}
                         >
-                            <PlusIcon className="w-6 h-6" />
+                            {editingTask ? <CheckIcon className="w-6 h-6" /> : <PlusIcon className="w-6 h-6" />}
+                            
                         </button>
                     </div>
                 </form>
