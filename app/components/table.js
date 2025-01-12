@@ -49,25 +49,11 @@ export function TaskTable() {
                 </tr>
                 </thead>
                 <tbody>
-                {tasks.map((task, index) => (
-                    <tr key={index}>
-                        <TableRow task={task} taskNum={index + 1}/>     
-                    </tr>         
-                ))}
-
-                <TableRow tasks={tasks}/>
-                
-                <tr className="bg-gray-100">
-                    <td className="border border-gray-300 px-4 py-2">Holder</td>
-                    <td className="border border-gray-300 px-4 py-2">2</td>
-                    <td className="border border-gray-300 px-4 py-2">Review Basics</td>
-                    <td className="border border-gray-300 px-4 py-2">In Progress</td>
-                    <td className="border border-gray-300 px-4 py-2">1/17/25</td>
-                    <td className="border border-gray-300 px-4 py-2">React/JS</td>
-                </tr>
+                    {tasks.map((task, index) => (
+                        <TableRow key={index} task={task} taskNum={index + 1} />
+                    ))}
                 </tbody>
             </table>
-
             
             <div>
                 <form onSubmit={handleFormSubmit}>

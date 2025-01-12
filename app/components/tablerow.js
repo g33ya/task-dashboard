@@ -6,7 +6,7 @@ import { TableField } from './tablefield.js';
 import { TaskCheckbox } from './checkbox.js';
 
 
-export function TableRow( {tasks} ) {
+export function TableRow( {task, taskNum} ) {
     const [isChecked, setIsChecked] = useState(false); 
 
     const handleCheckboxChange = () => {
@@ -15,16 +15,11 @@ export function TableRow( {tasks} ) {
     return (
         <tr className={`bg-white ${isChecked ? 'line-through' : ''}`}>
             <TaskCheckbox isChecked={isChecked} handleCheckboxChange={handleCheckboxChange}/>
-            {tasks.map((task, index) => (
-            <tr key={index}>
-              <td>{index + 1}</td>
-              <td>{task.name}</td>
-              <td>{task.status}</td>
-              <td>{task.dueDate}</td>
-              <td>{task.notes}</td>
-            </tr>
-          ))}
-
+            <TableField fieldType="tasknum" />
+            <td className="border border-gray-300 px-4 py-2">{task.name}</td>
+            <td className="border border-gray-300 px-4 py-2">{task.status}</td>
+            <td className="border border-gray-300 px-4 py-2">{task.dueDate}</td>
+            <td className="border border-gray-300 px-4 py-2">{task.notes}</td> 
         </tr>
     );
 }
