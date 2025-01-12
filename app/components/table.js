@@ -1,7 +1,7 @@
 "use client"; // DOM
 import { useState } from 'react';
-
 import { TableRow } from './tablerow.js';
+import { PlusIcon } from '@heroicons/react/24/solid'; // For solid icons
 
 export function TaskTable() {
 
@@ -13,7 +13,6 @@ export function TaskTable() {
         notes:'',
     });
     const [editingTask, setEditingTask] = useState(null); // use to update exisiting tasks
-
 
     const handleInputChange = (inputEvent) => {
         const { name, value } = inputEvent.target; // value = new value
@@ -75,42 +74,44 @@ export function TaskTable() {
                 </tbody>
             </table>
             
-            <div>
-                <form onSubmit={handleFormSubmit}>
+            <div className="p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-md">
+                <form onSubmit={handleFormSubmit} className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">             
                     <input
-                        type="text"
-                        name="name"
-                        value={newTask.name}
-                        onChange={handleInputChange}
-                        placeholder="Task Name"
-                    />
-                    <input
-                        type="date"
-                        name="dueDate"
-                        value={newTask.dueDate}
-                        onChange={handleInputChange}
+                    type="text"
+                    name="name"
+                    value={newTask.name}
+                    onChange={handleInputChange}
+                    placeholder="Task Name"
                     />
                     <input
-                        type="text"
-                        name="status"
-                        value={newTask.status}
-                        onChange={handleInputChange}
-                        placeholder="Status"
+                    type="date"
+                    name="dueDate"
+                    value={newTask.dueDate}
+                    onChange={handleInputChange}
                     />
-                    <textarea
-                        name="notes"
-                        value={newTask.notes}
-                        onChange={handleInputChange}
-                        placeholder="Notes"
+                    <input
+                    type="text"
+                    name="status"
+                    value={newTask.status}
+                    onChange={handleInputChange}
+                    placeholder="Status"
                     />
-                    
-                    <button
-                        type="submit"
-                        className="bg-green-500 text-white py-2 px-4 rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
-                    >
-                        {editingTask ? "Update Task" : "Add Task"}
-                    </button>
-                    
+                    <div className="flex items-center w-full sm:w-auto space-x-4">
+                        <textarea
+                            name="notes"
+                            value={newTask.notes}
+                            onChange={handleInputChange}
+                            placeholder="Notes"
+                            className="border border-gray-300 px-4 py-2 rounded-md w-full sm:w-auto"
+                        />
+                        <button
+                            type="submit"
+                            className="bg-green-300 text-white w-12 h-12 rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center"
+                            aria-label={editingTask ? "Update Task" : "Add Task"}
+                        >
+                            <PlusIcon className="w-6 h-6" />
+                        </button>
+                    </div>
                 </form>
             </div>
         </div>
