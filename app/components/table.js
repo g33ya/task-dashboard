@@ -1,6 +1,36 @@
 import { TableRow } from './tablerow.js';
 
 export function TaskTable() {
+
+    const [tasks, setTasks] = useState([]); // list of tasks
+    const [newTask, setNewTask] = useState({ // create new task
+        name: '',
+        status: '',
+        dueDate: '',
+        notes:'',
+    });
+
+    const handleInputChange = (inputEvent) => {
+        const { name, newValue } = inputEvent.target;
+        setNewTask({
+            ...newTask, // update existing task list
+            [name]: newValue
+        });
+    }
+
+    const handleFormSubmit = (newEvent) => {
+        newEvent.preventDefault(); // stop page from reloading
+        
+        setTasks([...tasks, { ...newTask, completed: false }]); // add new task (creates new array)
+        
+        setNewTask({
+          name: '',
+          dueDate: '',
+          status: '',
+          notes: ''
+        });
+      };
+
     return (
         <table className="table-auto border-collapse border border-gray-300 w-full text-left">
             <thead className="bg-gray-200">
