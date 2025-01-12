@@ -10,7 +10,6 @@ export function ProgressWheel({ progress }) {
         <svg
             width="120"
             height="120"
-            className="transform rotate-90" 
         >
             <circle
                 cx="60"
@@ -30,6 +29,7 @@ export function ProgressWheel({ progress }) {
                 strokeDasharray={circumference}
                 strokeDashoffset={offset}
                 style={{ transition: 'stroke-dashoffset 0.5s ease' }}
+                transform="rotate(-90 60 60)"
             />
             <text
                 x="50%"
@@ -38,7 +38,6 @@ export function ProgressWheel({ progress }) {
                 dy="0.3em"
                 fontSize="18"
                 fill="#333"
-                transform="rotate(-90 60 60)"
             >
                 {Math.round(progress)}%
             </text>
