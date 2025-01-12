@@ -43,7 +43,7 @@ export function TaskTable( { searchTerm }) {
         setNewTask({
           name: '',
           dueDate: '',
-          status: '',
+          status: 'not-started',
           notes: ''
         });
     };
