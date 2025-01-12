@@ -78,7 +78,7 @@ export function TaskTable( { searchTerm }) {
                 </thead>
                 <tbody>
                     {filteredTasks.map((task, index) => (
-                        <TableRow key={task.id} task={task} taskNum={index + 1} />
+                        <TableRow key={task.id} task={task} taskNum={index + 1} onEdit={handleEdit} removeTask={handleDelete} />
                     ))}
                 </tbody>
             </table>
