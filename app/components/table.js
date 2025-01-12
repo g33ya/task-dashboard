@@ -2,6 +2,8 @@
 import { useState } from 'react';
 import { TableRow } from './tablerow.js';
 import { SearchBar } from './searchbar.js';
+import { UpcomingTasks } from './upcomingtasks.js';
+
 import { ProgressWheel } from './progresswheel.js'
 import { PlusIcon , CheckIcon} from '@heroicons/react/24/solid'; // For solid icons
 
@@ -88,76 +90,76 @@ export function TaskTable( { searchTerm }) {
                         </button>
                     ))}
                 </div>
-                <div className="flex-1">
-                    <table className="table-auto border-collapse border border-gray-300 w-full text-left">
-                        <thead className="bg-gray-200">
-                        <tr>
-                            <th className="border border-gray-300 px-4 py-2">Completed</th>
-                            <th className="border border-gray-300 px-4 py-2">Task Number</th>
-                            <th className="border border-gray-300 px-4 py-2">Task Name</th>
-                            <th className="border border-gray-300 px-4 py-2">Status</th>
-                            <th className="border border-gray-300 px-4 py-2">Due Date</th>
-                            <th className="border border-gray-300 px-4 py-2">Notes</th>
+                
+                <table className="table-auto border-collapse border border-gray-300 w-full text-left">
+                    <thead className="bg-gray-200">
+                    <tr>
+                        <th className="border border-gray-300 px-4 py-2">Completed</th>
+                        <th className="border border-gray-300 px-4 py-2">Task Number</th>
+                        <th className="border border-gray-300 px-4 py-2">Task Name</th>
+                        <th className="border border-gray-300 px-4 py-2">Status</th>
+                        <th className="border border-gray-300 px-4 py-2">Due Date</th>
+                        <th className="border border-gray-300 px-4 py-2">Notes</th>
 
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {filteredTasks.map((task, index) => (
-                                <TableRow key={task.id} task={task} taskNum={index + 1} onEdit={handleEdit} removeTask={handleDelete} />
-                            ))}
-                        </tbody>
-                    </table>
-            
-                    <div className="p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-md">
-                        <form onSubmit={handleFormSubmit} className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">             
-                            <input
-                            type="text"
-                            name="name"
-                            value={newTask.name}
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {filteredTasks.map((task, index) => (
+                            <TableRow key={task.id} task={task} taskNum={index + 1} onEdit={handleEdit} removeTask={handleDelete} />
+                        ))}
+                    </tbody>
+                </table>
+        
+                <div className="p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-md">
+                    <form onSubmit={handleFormSubmit} className="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-4">             
+                        <input
+                        type="text"
+                        name="name"
+                        value={newTask.name}
+                        onChange={handleInputChange}
+                        placeholder="Task Name"
+                        />
+                        <input
+                        type="date"
+                        name="dueDate"
+                        value={newTask.dueDate}
+                        onChange={handleInputChange}
+                        />
+                        <select
+                            name="status"
+                            value={newTask.status || "not-started"}
                             onChange={handleInputChange}
-                            placeholder="Task Name"
-                            />
-                            <input
-                            type="date"
-                            name="dueDate"
-                            value={newTask.dueDate}
-                            onChange={handleInputChange}
-                            />
-                            <select
-                                name="status"
-                                value={newTask.status || "not-started"}
+                            className="border p-2 rounded"
+                        >
+                            <option value="not-started">Not Started</option>
+                            <option value="in-progress">In Progress</option>
+                            <option value="complete">Complete</option>
+                        </select>
+                        <div className="flex items-center w-full sm:w-auto space-x-4">
+                            <textarea
+                                name="notes"
+                                value={newTask.notes}
                                 onChange={handleInputChange}
-                                className="border p-2 rounded"
+                                placeholder="Notes"
+                                className="border border-gray-300 px-4 py-2 rounded-md w-full sm:w-auto"
+                            />
+                            <button
+                                type="submit"
+                                className="bg-green-300 text-white w-12 h-12 rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center"
+                                aria-label={editingTask ? "Update Task" : "Add Task"}
                             >
-                                <option value="not-started">Not Started</option>
-                                <option value="in-progress">In Progress</option>
-                                <option value="complete">Complete</option>
-                            </select>
-                            <div className="flex items-center w-full sm:w-auto space-x-4">
-                                <textarea
-                                    name="notes"
-                                    value={newTask.notes}
-                                    onChange={handleInputChange}
-                                    placeholder="Notes"
-                                    className="border border-gray-300 px-4 py-2 rounded-md w-full sm:w-auto"
-                                />
-                                <button
-                                    type="submit"
-                                    className="bg-green-300 text-white w-12 h-12 rounded-full hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 flex items-center justify-center"
-                                    aria-label={editingTask ? "Update Task" : "Add Task"}
-                                >
-                                    {editingTask ? <CheckIcon className="w-6 h-6" /> : <PlusIcon className="w-6 h-6" />}
-                                    
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                                {editingTask ? <CheckIcon className="w-6 h-6" /> : <PlusIcon className="w-6 h-6" />}
+                                
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div className="w-1/4 p-4 pl-30 flex flex-col items-center">
                 <h3 className="text-xl font-bold mb-4">Task Progress</h3>
                 <ProgressWheel progress={progress} />
+                <UpcomingTasks tasks={tasks}/>
             </div>
-        </div>
+        </div>     
     );
 }

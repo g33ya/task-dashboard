@@ -29,7 +29,7 @@ export function ProgressWheel({ progress }) {
                 strokeDasharray={circumference}
                 strokeDashoffset={offset}
                 style={{ transition: 'stroke-dashoffset 0.5s ease' }}
-                transform="rotate(-90 60 60)"
+                transform="rotate(-90 80 80)"
             />
             <text
                 x="50%"
