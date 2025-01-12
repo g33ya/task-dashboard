@@ -12,6 +12,8 @@ export function TaskTable() {
         dueDate: '',
         notes:'',
     });
+    const [editingTask, setEditingTask] = useState(null); // use to update exisiting tasks
+
 
     const handleInputChange = (inputEvent) => {
         const { name, value } = inputEvent.target; // value = new value
@@ -23,8 +25,16 @@ export function TaskTable() {
 
     const handleFormSubmit = (newEvent) => {
         newEvent.preventDefault(); // stop page from reloading
-        
-        setTasks([...tasks, { ...newTask, completed: false }]); // add new task (creates new array)
+
+        if (editingTask) {
+            const updatedTasks = tasks.map((task) =>
+                task === editingTask ? { ...task, ...newTask } : task
+            );
+            setTasks(updatedTasks);
+            setEditingTask(null); // turn off editing
+        } else { // adding a new task!
+            setTasks([...tasks, { ...newTask, completed: false }]);
+        }
         
         setNewTask({
           name: '',
@@ -32,7 +42,12 @@ export function TaskTable() {
           status: '',
           notes: ''
         });
-      };
+    };
+
+    const handleEdit = (task) => {
+        setEditingTask(task); // edit selected task
+        setNewTask(task); // prefills fields with task's original fields
+    };
 
     return (
         <div>
@@ -50,7 +65,7 @@ export function TaskTable() {
                 </thead>
                 <tbody>
                     {tasks.map((task, index) => (
-                        <TableRow key={index} task={task} taskNum={index + 1} />
+                        <TableRow key={index} task={task} taskNum={index + 1} onEdit={handleEdit}/>
                     ))}
                 </tbody>
             </table>
