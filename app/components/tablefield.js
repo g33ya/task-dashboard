@@ -4,9 +4,6 @@ export function TableField( { fieldType }) {
     let content;
 
     switch (fieldType) {
-        case 'checkbox':
-            content = <TaskCheckbox />
-            break;
         case 'tasknum':
             content = 1
             break;
