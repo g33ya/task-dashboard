@@ -15,9 +15,9 @@ export function TaskTable() {
             </tr>
             </thead>
             <tbody>
-            <tr class="bg-white">
-                <TableRow />
-            </tr>
+            
+            <TableRow />
+            
             <tr class="bg-gray-100">
                 <td class="border border-gray-300 px-4 py-2">Holder</td>
                 <td class="border border-gray-300 px-4 py-2">2</td>
