@@ -26,7 +26,8 @@ export function TaskTable( { searchTerm }) {
         });
     }
     const [selectedTab, setSelectedTab] = useState('all'); 
-
+    const [currentPage, setCurrentPage] = useState(1);
+    const tasksPerPage = 5; 
 
     const handleFormSubmit = (newEvent) => {
         newEvent.preventDefault(); // stop page from reloading
@@ -72,8 +73,40 @@ export function TaskTable( { searchTerm }) {
         return matchesSearchTerm && matchesTab;
     });
 
+    
+    filteredTasks.sort((a, b) => {
+        if (!a.dueDate && !b.dueDate) return 0;
+        if (!a.dueDate) return 1;
+        if (!b.dueDate) return -1;
+        return new Date(a.dueDate) - new Date(b.dueDate);
+    });
+    const updateTaskStatus = (taskId, newStatus) => {
+        // Find the task by id
+        const updatedTask = tasks.find(task => task.id === taskId);
+        
+        if (updatedTask) {
+            // Update the status of the found task
+            updatedTask.status = newStatus;
+            
+            // Trigger state update
+            setTasks([...tasks]);
+        }
+    };
+
+    
+
+    const totalTasks = filteredTasks.length;
+    const startIndex = (currentPage - 1) * tasksPerPage;
+    const currentTasks = filteredTasks.slice(startIndex, startIndex + tasksPerPage);
+
+    const totalPages = Math.ceil(totalTasks / tasksPerPage);
+
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
+
     const completedTasks = tasks.filter((task) => task.status === 'complete').length;
-    const totalTasks = tasks.length;
+    //const totalTasks = tasks.length;
     const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0; 
 
     return (
@@ -104,10 +137,11 @@ export function TaskTable( { searchTerm }) {
                     </tr>
                     </thead>
                     <tbody>
-                        {filteredTasks.map((task, index) => (
-                            <TableRow key={task.id} task={task} taskNum={index + 1} onEdit={handleEdit} removeTask={handleDelete} />
-                        ))}
-                    </tbody>
+    {currentTasks.map((task, index) => (
+        <TableRow key={task.id} task={task} taskNum={startIndex + index + 1} onEdit={handleEdit} removeTask={handleDelete} updateTaskStatus={updateTaskStatus}/>
+    ))}
+</tbody>
+
                 </table>
         
                 <div className="p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-md">
@@ -154,6 +188,31 @@ export function TaskTable( { searchTerm }) {
                         </div>
                     </form>
                 </div>
+                <div className="flex justify-center mt-4">
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="px-4 py-2 bg-gray-200 rounded-l-md"
+                    >
+                        Previous
+                    </button>
+                    {Array.from({ length: totalPages }).map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => handlePageChange(index + 1)}
+                            className={`px-4 py-2 ${currentPage === index + 1 ? 'bg-green-300' : 'bg-gray-200'} rounded-md`}
+                        >
+                            {index + 1}
+                        </button>
+                    ))}
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="px-4 py-2 bg-gray-200 rounded-r-md"
+                    >
+                        Next
+                    </button>
+                </div>   
             </div>
             <div className="w-1/4 p-4 pl-30 flex flex-col items-center">
                 <h3 className="text-xl font-bold mb-4">Task Progress</h3>

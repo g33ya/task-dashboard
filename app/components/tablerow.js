@@ -6,10 +6,17 @@ import { PencilIcon } from '@heroicons/react/24/solid'; // Import the Pencil Ico
 import { TrashIcon } from '@heroicons/react/24/solid'; // Import the Pencil Icon
 
 
-export function TableRow( {task, taskNum, onEdit, removeTask} ) {
+export function TableRow( {task, taskNum, onEdit, removeTask, updateTaskStatus} ) {
     const [isChecked, setIsChecked] = useState(false); 
+    const [originalStatus, setOriginalStatus] = useState(task.status);
 
     const handleCheckboxChange = () => {
+        if (!isChecked) {
+            setOriginalStatus(task.status);
+            updateTaskStatus(task.id, 'complete');
+        } else {
+            updateTaskStatus(task.id, originalStatus);
+        }
         setIsChecked(!isChecked);
     };
 
@@ -23,9 +30,7 @@ export function TableRow( {task, taskNum, onEdit, removeTask} ) {
             <TaskCheckbox isChecked={isChecked} handleCheckboxChange={handleCheckboxChange}/>
             <td className="border border-gray-300 px-4 py-2">{taskNum}</td>
             <td className="border border-gray-300 px-4 py-2">{task.name}</td>
-            <td className="border border-gray-300 px-4 py-2">
-                {isChecked ? 'Complete' : (statusDisplay[task.status] || '')}
-            </td>            
+            <td className="border border-gray-300 px-4 py-2">{statusDisplay[task.status]}</td>
             <td className="border border-gray-300 px-4 py-2">{task.dueDate}</td>
             <td className="border border-gray-300 px-4 py-2">{task.notes}</td> 
             <td className="border border-gray-300 px-4 py-2">
