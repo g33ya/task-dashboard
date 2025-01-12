@@ -1,27 +1,27 @@
 import React from 'react';
 export function ProgressWheel({ progress }) {
 
-    const radius = 50; 
+    const radius = 70; 
     const strokeWidth = 10; 
     const circumference = 2 * Math.PI * radius; 
     const offset = circumference - (progress / 100) * circumference; 
 
     return (
         <svg
-            width="120"
-            height="120"
+            width="160"
+            height="160"
         >
             <circle
-                cx="60"
-                cy="60"
+                cx="80"
+                cy="80"
                 r={radius}
                 stroke="#e0e0e0"
                 strokeWidth={strokeWidth}
                 fill="none"
             />
             <circle
-                cx="60"
-                cy="60"
+                cx="80"
+                cy="80"
                 r={radius}
                 stroke="#4caf50"
                 strokeWidth={strokeWidth}
