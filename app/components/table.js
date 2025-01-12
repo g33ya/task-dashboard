@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { TableRow } from './tablerow.js';
 import { SearchBar } from './searchbar.js';
-
+import { ProgressWheel } from './progresswheel.js'
 import { PlusIcon , CheckIcon} from '@heroicons/react/24/solid'; // For solid icons
 
 export function TaskTable( { searchTerm }) {
@@ -69,6 +69,10 @@ export function TaskTable( { searchTerm }) {
 
         return matchesSearchTerm && matchesTab;
     });
+
+    const completedTasks = tasks.filter((task) => task.status === 'complete').length;
+    const totalTasks = tasks.length;
+    const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0; 
 
     return (
         <div>
@@ -146,6 +150,10 @@ export function TaskTable( { searchTerm }) {
                         </button>
                     </div>
                 </form>
+                <div className="my-4">
+                <h3 className="text-xl font-bold">Task Progress</h3>
+                <ProgressWheel progress={progress} />
+            </div>
             </div>
         </div>
     );
