@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { TableRow } from './tablerow.js';
 import { SearchBar } from './searchbar.js';
-import { UpcomingTasks } from './upcomingtasks.js';
 
 import { ProgressWheel } from './progresswheel.js'
 import { PlusIcon , CheckIcon} from '@heroicons/react/24/solid'; // For solid icons
@@ -17,6 +16,7 @@ export function TaskTable( { searchTerm }) {
         notes:'',
     });
     const [editingTask, setEditingTask] = useState(null); // use to update exisiting tasks
+    
 
     const handleInputChange = (inputEvent) => {
         const { name, value } = inputEvent.target; // value = new value
@@ -93,8 +93,6 @@ export function TaskTable( { searchTerm }) {
         }
     };
 
-    
-
     const totalTasks = filteredTasks.length;
     const startIndex = (currentPage - 1) * tasksPerPage;
     const currentTasks = filteredTasks.slice(startIndex, startIndex + tasksPerPage);
@@ -108,6 +106,9 @@ export function TaskTable( { searchTerm }) {
     const completedTasks = tasks.filter((task) => task.status === 'complete').length;
     //const totalTasks = tasks.length;
     const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0; 
+
+    const [recentCompletedTasks, setRecentCompletedTasks] = useState([]);
+
 
     return (
         <div className="flex">
@@ -137,11 +138,10 @@ export function TaskTable( { searchTerm }) {
                     </tr>
                     </thead>
                     <tbody>
-    {currentTasks.map((task, index) => (
-        <TableRow key={task.id} task={task} taskNum={startIndex + index + 1} onEdit={handleEdit} removeTask={handleDelete} updateTaskStatus={updateTaskStatus}/>
-    ))}
-</tbody>
-
+                        {currentTasks.map((task, index) => (
+                            <TableRow key={task.id} task={task} taskNum={startIndex + index + 1} onEdit={handleEdit} removeTask={handleDelete} updateTaskStatus={updateTaskStatus}/>
+                        ))}
+                    </tbody>
                 </table>
         
                 <div className="p-6 border border-gray-300 rounded-lg bg-gray-50 shadow-md">
@@ -217,7 +217,6 @@ export function TaskTable( { searchTerm }) {
             <div className="w-1/4 p-4 pl-30 flex flex-col items-center">
                 <h3 className="text-xl font-bold mb-4">Task Progress</h3>
                 <ProgressWheel progress={progress} />
-                <UpcomingTasks tasks={tasks}/>
             </div>
         </div>     
     );
