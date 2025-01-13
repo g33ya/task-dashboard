@@ -147,7 +147,7 @@ export function TaskTable( { searchTerm }) {
                     ))}
                 </div>
                 
-                <table className="table-auto border-collapse border round border-gray-300 w-full text-left">
+                <table className="table-auto border-collapse border round border-gray-300 w-full text-left mb-3">
                     <thead className="bg-gray-200 rounded-lg border-gray-30">
                     <tr>
                         <th className="border border-gray-300 px-4 py-2">Completed</th>
@@ -221,7 +221,7 @@ export function TaskTable( { searchTerm }) {
                         <button
                             key={index}
                             onClick={() => handlePageChange(index + 1)}
-                            className={`px-4 py-2 ${currentPage === index + 1 ? 'bg-green-300' : 'bg-gray-200'} rounded-md`}
+                            className={`px-4 py-2 ${currentPage === index + 1 ? 'bg-gray-400' : 'bg-gray-200'} rounded-md`}
                         >
                             {index + 1}
                         </button>
