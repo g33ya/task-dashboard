@@ -4,6 +4,7 @@ import { TableRow } from './tablerow.js';
 import { ProgressWheel } from './progresswheel.js'
 import { handleExportJSON } from '../jsonexport.js'
 import { PlusIcon , CheckIcon} from '@heroicons/react/24/solid';
+import Confetti from 'react-confetti';
 
 export function TaskTable( { searchTerm }) {
 
@@ -26,9 +27,10 @@ export function TaskTable( { searchTerm }) {
     // Ensure user enters task name
     const [error, setError] = useState(''); 
 
+    const [isConfettiVisible, setIsConfettiVisible] = useState(false);
 
     // ------------------------### FUNCTIONS/VARS ###------------------------
-
+    
     // Retrieve tasks from local storage
     useEffect(() => {
         const storedTasks = JSON.parse(localStorage.getItem('tasks'));
@@ -133,6 +135,22 @@ export function TaskTable( { searchTerm }) {
     // Find % of completed tasks for progress wheel
     const completedTasks = tasks.filter((task) => task.status === 'complete').length;
     const progress = totalTasks > 0 ? (completedTasks / totalTasks) * 100 : 0; 
+    
+    // Confetti effect when all tasks complete
+    useEffect(() => {
+        if (progress === 100) {
+          setIsConfettiVisible(true);
+      
+          setTimeout(() => {
+            document.getElementById('confetti-container').style.opacity = '0';
+          }, 3000); 
+      
+          setTimeout(() => {
+            setIsConfettiVisible(false);
+          }, 4000);
+        }
+      }, [progress]);
+   
     
     // JSON function
     const handleClickExport = () => {
@@ -249,7 +267,19 @@ export function TaskTable( { searchTerm }) {
             </div>
             <div className="w-1/4 p-4 pl-30 flex flex-col items-center">
                 <h3 className="text-xl font-bold mb-4">Task Progress</h3>
-                <ProgressWheel progress={progress} />
+                <div>
+                    {isConfettiVisible && (
+                        <div
+                        id="confetti-container"
+                        style={{ opacity: 1, transition: 'opacity 1s ease' }}
+                        >
+                        <Confetti />
+                        </div>
+                    )}
+                    <div className="progress-wheel">
+                        <ProgressWheel progress={progress} />
+                    </div>
+                </div>
                 <button
                     onClick={handleClickExport}
                     className="bg-blue-500 text-white px-4 py-2 rounded mt-4 hover:bg-blue-600"
