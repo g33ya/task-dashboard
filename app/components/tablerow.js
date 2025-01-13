@@ -1,23 +1,26 @@
 "use client"; // DOM
-
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TaskCheckbox } from './checkbox.js';
-import { PencilIcon } from '@heroicons/react/24/solid'; // Import the Pencil Icon
-import { TrashIcon } from '@heroicons/react/24/solid'; // Import the Pencil Icon
+import { PencilIcon } from '@heroicons/react/24/solid'; 
+import { TrashIcon } from '@heroicons/react/24/solid';
 
+export function TableRow({ task, taskNum, onEdit, removeTask, updateTaskStatus }) {
 
-export function TableRow( {task, taskNum, onEdit, removeTask, updateTaskStatus} ) {
-    const [isChecked, setIsChecked] = useState(false); 
-    const [originalStatus, setOriginalStatus] = useState(task.status);
+    // ------------------------### STATES ###------------------------
+    const [isChecked, setIsChecked] = useState(task.status === 'complete');
+
+    // ------------------------### FUNCTIONS/VARS ###------------------------
 
     const handleCheckboxChange = () => {
         if (!isChecked) {
-            setOriginalStatus(task.status);
+            // Mark task as complete when checkbox is checked
             updateTaskStatus(task.id, 'complete');
         } else {
-            updateTaskStatus(task.id, originalStatus);
+            // Reset task status to "in-progress" when checkbox is unchecked
+            updateTaskStatus(task.id, 'in-progress');
         }
-        setIsChecked(!isChecked);
+    
+        setIsChecked(!isChecked); // Toggle checkbox state
     };
 
     const statusDisplay = {
@@ -25,9 +28,10 @@ export function TableRow( {task, taskNum, onEdit, removeTask, updateTaskStatus} 
         'in-progress': 'In Progress',
         'complete': 'Complete'
     };
+
     return (
         <tr className={`bg-white ${isChecked ? 'line-through' : ''}`}>
-            <TaskCheckbox isChecked={isChecked} handleCheckboxChange={handleCheckboxChange}/>
+            <TaskCheckbox isChecked={isChecked} handleCheckboxChange={handleCheckboxChange} />
             <td className="border border-gray-300 px-4 py-2">{taskNum}</td>
             <td className="border border-gray-300 px-4 py-2">{task.name}</td>
             <td className="border border-gray-300 px-4 py-2">{statusDisplay[task.status]}</td>
@@ -38,8 +42,8 @@ export function TableRow( {task, taskNum, onEdit, removeTask, updateTaskStatus} 
                     <button
                         onClick={() => onEdit(task)}
                         className="bg-blue-500 text-white w-12 h-12 rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 flex items-center justify-center"
-                        >
-                            <PencilIcon className="w-6 h-6" />
+                    >
+                        <PencilIcon className="w-6 h-6" />
                     </button>
                     <button
                         type="button"

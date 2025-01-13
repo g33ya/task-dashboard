@@ -10,7 +10,7 @@ export function SearchBar() {
     };
     return (
         <div>
-<div className="p-4">
+            <div className="p-4">
                 <input
                     type="text"
                     value={searchTerm}
@@ -20,7 +20,6 @@ export function SearchBar() {
                 />
             </div>
             <TaskTable searchTerm={searchTerm} />
-            </div>
-
+        </div>
     );
 }
