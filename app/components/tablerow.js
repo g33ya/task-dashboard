@@ -34,7 +34,16 @@ export function TableRow({ task, taskNum, onEdit, removeTask, updateTaskStatus }
             <TaskCheckbox isChecked={isChecked} handleCheckboxChange={handleCheckboxChange} />
             <td className="border border-gray-300 px-4 py-2">{taskNum}</td>
             <td className="border border-gray-300 px-4 py-2">{task.name}</td>
-            <td className="border border-gray-300 px-4 py-2">{statusDisplay[task.status]}</td>
+            <td className="border border-gray-300 px-4 py-2">
+            <span className={`inline-block px-2 py-1 rounded-md ${
+                task.status === 'not-started' ? 'bg-red-200 text-red-800' :
+                task.status === 'in-progress' ? 'bg-yellow-200 text-yellow-800' :
+                task.status === 'complete' ? 'bg-green-200 text-green-800' :
+                ''
+            }`}>
+                {statusDisplay[task.status]}
+            </span>
+            </td>
             <td className="border border-gray-300 px-4 py-2">{task.dueDate}</td>
             <td className="border border-gray-300 px-4 py-2">{task.notes}</td> 
             <td className="border border-gray-300 px-4 py-2">

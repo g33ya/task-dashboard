@@ -134,8 +134,8 @@ export function TaskTable( { searchTerm }) {
                     ))}
                 </div>
                 
-                <table className="table-auto border-collapse border border-gray-300 w-full text-left">
-                    <thead className="bg-gray-200">
+                <table className="table-auto border-collapse border round border-gray-300 w-full text-left">
+                    <thead className="bg-gray-200 rounded-lg border-gray-30">
                     <tr>
                         <th className="border border-gray-300 px-4 py-2">Completed</th>
                         <th className="border border-gray-300 px-4 py-2">Task Number</th>
