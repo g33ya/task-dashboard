@@ -6,11 +6,11 @@ import { handleExportJSON } from '../jsonexport.js'
 import { PlusIcon , CheckIcon} from '@heroicons/react/24/solid';
 import Confetti from 'react-confetti';
 
-export function TaskTable( { searchTerm }) {
+export function TaskTable( { searchTerm, tasks, updateTasks }) {
 
     // ------------------------### STATES ###------------------------
 
-    const [tasks, setTasks] = useState([]); // list of tasks
+   // const [tasks, updateTasks] = useState([]); // list of tasks
     const [newTask, setNewTask] = useState({ // create new task
         name: '',
         status: 'not-started',
@@ -35,7 +35,7 @@ export function TaskTable( { searchTerm }) {
     useEffect(() => {
         const storedTasks = JSON.parse(localStorage.getItem('tasks'));
         if (storedTasks) {
-            setTasks(storedTasks);
+            updateTasks(storedTasks);
         }
     }, []);
 
@@ -66,11 +66,11 @@ export function TaskTable( { searchTerm }) {
             const updatedTasks = tasks.map((task) =>
                 task === editingTask ? { ...task, ...newTask } : task
             );
-            setTasks(updatedTasks);
+            updateTasks(updatedTasks);
             setEditingTask(null); // turn off editing
         } else { // adding a new task!
             const newTaskWithID = { ...newTask, id: Date.now() };
-            setTasks([newTaskWithID, ...tasks]);
+            updateTasks([newTaskWithID, ...tasks]);
         }       
         setNewTask({
           name: '',
@@ -88,7 +88,7 @@ export function TaskTable( { searchTerm }) {
 
     // Remove task
     const handleDelete = (taskId) => {
-        setTasks(tasks.filter((task) => task.id !== taskId));
+        updateTasks(tasks.filter((task) => task.id !== taskId));
     };
 
     // Only show tasks that include search term
@@ -117,7 +117,7 @@ export function TaskTable( { searchTerm }) {
         
         if (updatedTask) {
             updatedTask.status = newStatus;
-            setTasks([...tasks]);
+            updateTasks([...tasks]);
         }
     };
 
