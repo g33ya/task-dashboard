@@ -23,6 +23,10 @@ export function TaskTable( { searchTerm }) {
     const [currentPage, setCurrentPage] = useState(1);
     const tasksPerPage = 5; 
 
+    // Ensure user enters task name
+    const [error, setError] = useState(''); 
+
+
     // ------------------------### FUNCTIONS/VARS ###------------------------
 
     // Retrieve tasks from local storage
@@ -49,6 +53,12 @@ export function TaskTable( { searchTerm }) {
     // Updates/adds new task to list
     const saveTask = (newEvent) => {
         newEvent.preventDefault(); // stop page from reloading
+
+        if (!newTask.name.trim()) {
+            setError('Task name is required.');
+            return;
+        }
+        setError(''); // clear
 
         if (editingTask) { // editing existing task
             const updatedTasks = tasks.map((task) =>
@@ -174,7 +184,9 @@ export function TaskTable( { searchTerm }) {
                         value={newTask.name}
                         onChange={updateFormField}
                         placeholder="Task Name"
+                        className={`border ${error ? 'border-red-500' : 'border-gray-300'} px-4 py-2 rounded-md`}
                         />
+                        {error && <div className="text-red-500 text-sm mt-1">Task name is required.</div>}
                         <input
                         type="date"
                         name="dueDate"

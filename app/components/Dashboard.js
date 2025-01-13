@@ -2,7 +2,7 @@
 import { useState } from 'react';
 import { TaskTable } from './table.js';
 
-export function SearchBar() {
+export function Dashboard() {
     const [searchTerm, setSearchTerm] = useState('');
 
     const handleSearchChange = (event) => {
