@@ -1,5 +1,5 @@
 "use client"; // DOM
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TableRow } from './tablerow.js';
 import { ProgressWheel } from './progresswheel.js'
 import { handleExportJSON } from '../jsonexport.js'
@@ -24,6 +24,19 @@ export function TaskTable( { searchTerm }) {
     const tasksPerPage = 5; 
 
     // ------------------------### FUNCTIONS/VARS ###------------------------
+
+    // Retrieve tasks from local storage
+    useEffect(() => {
+        const storedTasks = JSON.parse(localStorage.getItem('tasks'));
+        if (storedTasks) {
+            setTasks(storedTasks);
+        }
+    }, []);
+
+    // Save tasks to local storage on change
+    useEffect(() => {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+    }, [tasks]);
 
     const updateFormField = (inputEvent) => {
         const { name, value } = inputEvent.target; // grab specific form field
