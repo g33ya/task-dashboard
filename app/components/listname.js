@@ -1,4 +1,4 @@
-"use client"; // DOM
+"use client"; 
 import { useState } from 'react';
 import { PencilIcon } from '@heroicons/react/24/solid'; 
 

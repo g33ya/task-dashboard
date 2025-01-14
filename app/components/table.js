@@ -1,4 +1,4 @@
-"use client"; // DOM
+"use client"; 
 import { useState, useEffect } from 'react';
 import { TableRow } from './tablerow.js';
 import { ProgressWheel } from './progresswheel.js'

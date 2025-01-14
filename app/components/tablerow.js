@@ -1,7 +1,7 @@
-"use client"; // DOM
+"use client"; 
 import { useState, useEffect } from 'react';
 import { TaskCheckbox } from './checkbox.js';
-import { PlusIcon , PencilIcon, TrashIcon} from '@heroicons/react/24/solid';
+import { PencilIcon, TrashIcon} from '@heroicons/react/24/solid';
 
 
 export function TableRow({ task, taskNum, onEdit, removeTask, updateTaskStatus }) {
