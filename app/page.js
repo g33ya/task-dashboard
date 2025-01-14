@@ -36,10 +36,10 @@ export default function Home() {
   );
 
   const addDashboard = () => {
-    const newId = dashboards.length + 1;
+    const newId = Date.now();
     const newDashboard = {
       id: newId,
-      name: `New Task List ${newId}`,
+      name: `New Task List ${dashboards.length + 1}`,
       tasks: [],
     };
     setDashboards([...dashboards, newDashboard]);
@@ -120,45 +120,42 @@ export default function Home() {
         </div>
       </div>
       <div className="text-black p-4 flex justify-between">
-  <div className="flex items-center space-x-2">
-    {isEditing ? (
-      <input
-        type="text"
-        value={currentDashboardData ? currentDashboardData.name : ""}
-        onChange={handleHeaderNameChange}
-        onKeyDown={handleHeaderNameSubmit}
-        className="bg-transparent border-b text-xl text-black"
-      />
-    ) : (
-      <h1 className="text-xl">{currentDashboardData ? currentDashboardData.name : "No Dashboard"}</h1>
-    )}
-    <button
-      onClick={() => setIsEditing(!isEditing)}
-      className="bg-transparent text-gray-500 px-4 py-2 rounded-lg"
-    >
-      <div>
-        {isEditing ? (
-          <CheckIcon className="w-6 h-6 text-gray-500" />
-        ) : (
-          <PencilIcon className="w-6 h-6 text-gray-500" />
-        )}
+        <div className="flex items-center space-x-2">
+          {isEditing ? (
+            <input
+              type="text"
+              value={currentDashboardData ? currentDashboardData.name : ""}
+              onChange={handleHeaderNameChange}
+              onKeyDown={handleHeaderNameSubmit}
+              className="bg-transparent border-b text-xl text-black"
+            />
+          ) : (
+            <h1 className="text-xl">{currentDashboardData ? currentDashboardData.name : "No Dashboard"}</h1>
+          )}
+          <button
+            onClick={() => setIsEditing(!isEditing)}
+            className="bg-transparent text-gray-500 px-4 py-2 rounded-lg"
+          >
+            <div>
+              {isEditing ? (
+                <CheckIcon className="w-6 h-6 text-gray-500" />
+              ) : (
+                <PencilIcon className="w-6 h-6 text-gray-500" />
+              )}
+            </div>
+          </button>
+        </div>
+        <button
+          onClick={removeDashboard}
+          disabled={dashboards.length <= 1} 
+          className={`px-4 py-2 rounded-lg flex items-center ${
+            dashboards.length > 1 ? "bg-red-600 text-white" : "bg-gray-300 text-gray-500 cursor-not-allowed"
+          }`}
+        >
+          <TrashIcon className="w-6 h-6 mr-2" />
+          Remove Task List
+        </button>
       </div>
-    </button>
-  </div>
-  <button
-  onClick={removeDashboard}
-  disabled={dashboards.length <= 1} // Disable the button when there's only one dashboard
-  className={`px-4 py-2 rounded-lg flex items-center ${
-    dashboards.length > 1 ? "bg-red-600 text-white" : "bg-gray-300 text-gray-500 cursor-not-allowed"
-  }`}
->
-  <TrashIcon className="w-6 h-6 mr-2" />
-  Remove Task List
-</button>
-
-
-      </div>
-
       <div className="p-4">
         {currentDashboardData && (
           <Dashboard
